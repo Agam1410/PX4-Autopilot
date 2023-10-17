@@ -132,6 +132,7 @@ void RtlDirect::setRtlPosition(DestinationPosition rtl_position, loiter_point_s 
 	if (!isActive()) {
 		_land_approach = loiter_pos;
 		_destination = rtl_position;
+		_force_heading = false;
 
 		// Input sanitation
 		if (!PX4_ISFINITE(_destination.lat) || !PX4_ISFINITE(_destination.lon)) {
@@ -150,6 +151,13 @@ void RtlDirect::setRtlPosition(DestinationPosition rtl_position, loiter_point_s 
 		if (!PX4_ISFINITE(_land_approach.lat) || !PX4_ISFINITE(_land_approach.lon)) {
 			_land_approach.lat = _destination.lat;
 			_land_approach.lon = _destination.lon;
+
+		} else {
+			const float dist_to_destination{get_distance_to_next_waypoint(_land_approach.lat, _land_approach.lon, _destination.lat, _destination.lon)};
+
+			if (dist_to_destination > _navigator->get_acceptance_radius()) {
+				_force_heading = true;
+			}
 		}
 
 		if (!PX4_ISFINITE(_land_approach.height_m) || _land_approach.height_m <= 0) {
@@ -225,6 +233,10 @@ void RtlDirect::set_rtl_item()
 			pos_sp_triplet->next.lon = _destination.lon;
 			pos_sp_triplet->next.type = position_setpoint_s::SETPOINT_TYPE_LAND;
 
+			if (_force_heading) {
+				_mission_item.force_heading = true;
+			}
+
 			// Disable previous setpoint to prevent drift.
 			pos_sp_triplet->previous.valid = false;
 
@@ -268,6 +280,7 @@ void RtlDirect::set_rtl_item()
 
 			// Prepare for transition
 			_mission_item.vtol_back_transition = true;
+			_mission_item.force_heading = false;
 
 			// set previous item location to loiter location such that vehicle tracks line between loiter
 			// location and land location after exiting the loiter circle

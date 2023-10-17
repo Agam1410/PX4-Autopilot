@@ -177,6 +177,7 @@ private:
 	void setLoiterPosition();
 
 	bool _enforce_rtl_alt{false};
+	bool _force_heading{false};
 
 	DestinationPosition _destination; ///< the RTL position to fly to
 	loiter_point_s _land_approach;
