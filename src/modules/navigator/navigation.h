@@ -160,7 +160,6 @@ struct mission_item_s {
 			union {
 				float time_inside;		/**< time that the MAV should stay inside the radius before advancing in seconds */
 				float circle_radius;		/**< geofence circle radius in meters (only used for NAV_CMD_NAV_FENCE_CIRCLE*) */
-				bool is_mission_rally_point;	/**< only used for NAV_CMD_RALLY_POINT */
 			};
 			float acceptance_radius;		/**< default radius in which the mission is accepted as reached in meters */
 			float loiter_radius;			/**< loiter radius in meters, 0 for a VTOL to hover, negative for counter-clockwise */

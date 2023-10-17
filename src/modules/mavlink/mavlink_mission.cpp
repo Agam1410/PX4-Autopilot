@@ -1424,7 +1424,6 @@ MavlinkMissionManager::parse_mavlink_mission_item(const mavlink_mission_item_t *
 
 		case MAV_CMD_NAV_RALLY_POINT:
 			mission_item->nav_cmd = (NAV_CMD)mavlink_mission_item->command;
-			mission_item->is_mission_rally_point = (mavlink_mission_item->param1 > 0.0f);
 			break;
 
 		default:
@@ -1706,7 +1705,6 @@ MavlinkMissionManager::format_mavlink_mission_item(const struct mission_item_s *
 			break;
 
 		case MAV_CMD_NAV_RALLY_POINT:
-			mavlink_mission_item->param1 = mission_item->is_mission_rally_point ? 1 : 0;
 			break;
 
 

@@ -395,7 +395,11 @@ void RTL::findRtlDestination(DestinationType &destination_type, DestinationPosit
 				continue;
 			}
 
-			if (mission_safe_point.nav_cmd == NAV_CMD_RALLY_POINT && mission_safe_point.is_mission_rally_point) {
+			// Ignore safepoints which are too close to the homepoint
+			const float dist_to_home = get_distance_to_next_waypoint(_home_pos_sub.get().lat, _home_pos_sub.get().lon,
+						   mission_safe_point.lat, mission_safe_point.lon);
+
+			if (mission_safe_point.nav_cmd == NAV_CMD_RALLY_POINT && dist_to_home > MAX_DIST_FROM_HOME_FOR_LAND_APPROACHES) {
 				float dist{get_distance_to_next_waypoint(_global_pos_sub.get().lat, _global_pos_sub.get().lon, mission_safe_point.lat, mission_safe_point.lon)};
 
 				DestinationPosition safepoint_position;
