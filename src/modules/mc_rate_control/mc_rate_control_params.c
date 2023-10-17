@@ -51,7 +51,6 @@
  * @group Multicopter Rate Control
  */
 PARAM_DEFINE_FLOAT(MC_ROLLRATE_P, 0.15f);
-
 /**
  * Roll rate I gain
  *
@@ -398,3 +397,104 @@ PARAM_DEFINE_FLOAT(MC_ACRO_SUPEXPOY, 0.7f);
  * @group Multicopter Rate Control
  */
 PARAM_DEFINE_INT32(MC_BAT_SCALE_EN, 0);
+
+/**
+ * Lambda for MFC
+ *
+ * @min 0.01
+ * @max 1000
+ * @decimal 3
+ * @increment 0.01
+ * @group Multicopter Rate Control
+ */
+PARAM_DEFINE_FLOAT(MC_MFC_L, 0.7f);
+
+/**
+ * Fhat gain for MFC
+ *
+ * @decimal 10
+ * @group Multicopter Rate Control
+ */
+PARAM_DEFINE_FLOAT(MC_MFC_GF, 0.7f);
+
+/**
+ * Set point derivative gain for MFC
+ *
+ * @decimal 10
+ * @group Multicopter Rate Control
+ */
+PARAM_DEFINE_FLOAT(MC_MFC_GS, 1f);
+
+/**
+ * N value for Simpson's rule MFC
+ *
+ * @min 1
+ * @group Multicopter Rate Control
+ */
+PARAM_DEFINE_INT32(MC_MFC_N, 22);
+
+/**
+ * Roll rate P gain for MFC
+ *
+ * Roll rate proportional gain, i.e. control output for angular speed error 1 rad/s.
+ *
+ * @min 0.01
+ * @max 0.5
+ * @decimal 3
+ * @increment 0.01
+ * @group Multicopter Rate Control
+ */
+PARAM_DEFINE_FLOAT(MC_ROLLR_MFC_P, 0.15f);
+
+/**
+ * Roll rate I gain for MFC
+ *
+ * @min 0.01
+ * @max 0.5
+ * @decimal 3
+ * @group Multicopter Rate Control
+ */
+PARAM_DEFINE_FLOAT(MC_ROLLR_MFC_I, 0.07f);
+
+/**
+ * Roll rate D gain for MFC
+ *
+ * @min 0.0
+ * @max 0.5
+ * @decimal 3
+ * @group Multicopter Rate Control
+ */
+PARAM_DEFINE_FLOAT(MC_ROLLR_MFC_D, 0.003f);
+
+/**
+ * Pitch rate P gain for MFC
+ *
+ * Pitch rate proportional gain, i.e. control output for angular speed error 1 rad/s.
+ *
+ * @min 0.01
+ * @max 0.5
+ * @decimal 3
+ * @increment 0.01
+ * @group Multicopter Rate Control
+ */
+PARAM_DEFINE_FLOAT(MC_PITCHR_MFC_P, 0.15f);
+
+/**
+ * Pitch rate I gain for MFC
+ *
+ * @min 0.01
+ * @max 0.5
+ * @decimal 3
+ * @group Multicopter Rate Control
+ */
+PARAM_DEFINE_FLOAT(MC_PITCHR_MFC_I, 0.07f);
+
+/**
+ * Pitch rate D gain for MFC
+ *
+ * @min 0.0
+ * @max 0.5
+ * @decimal 3
+ * @group Multicopter Rate Control
+ */
+PARAM_DEFINE_FLOAT(MC_PITCHR_MFC_D, 0.003f);

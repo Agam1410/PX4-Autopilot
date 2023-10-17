@@ -43,6 +43,13 @@
 
 #include <mathlib/mathlib.h>
 #include <uORB/topics/rate_ctrl_status.h>
+#include <uORB/Publication.hpp>
+#include <uORB/Subscription.hpp>
+#include <uORB/topics/pidvalues.h>
+#include <uORB/topics/rc_channels.h>
+#include <px4_platform_common/module_params.h>
+#include <uORB/topics/parameter_update.h>
+
 
 class RateControl
 {
@@ -95,6 +102,22 @@ public:
 	 */
 	matrix::Vector3f update(const matrix::Vector3f &rate, const matrix::Vector3f &rate_sp,
 				const matrix::Vector3f &angular_accel, const float dt, const bool landed);
+	// MFC Functions
+	matrix::Vector3f update_mfc(const matrix::Vector3f &rate, const matrix::Vector3f &rate_sp,
+				const matrix::Vector3f &angular_accel, const float dt, const bool landed);
+
+	float F_hat(float x, bool y, bool z, float _f1_measurement, float _last_f1_u);
+
+    	float F_hat_F(bool y, bool z, float* _f_measurement, float* _last_f_u);
+
+	void setMFCGains(const matrix::Vector3f &P, const matrix::Vector3f &I, const matrix::Vector3f &D, const float &Fhat_gain, const float &SP_der_gain, const float &Lambda, const float &n);
+
+	void pop(float* input);
+	void push(float* input, float value);
+	void push_pop_time(float* input, float value);
+	float sum(float* input);
+
+	uORB::Subscription _rc_channel_sub{ORB_ID(rc_channels)};
 
 	/**
 	 * Set the integral term to 0 to prevent windup
@@ -136,4 +159,29 @@ private:
 	// Feedback from control allocation
 	matrix::Vector<bool, 3> _control_allocator_saturation_negative;
 	matrix::Vector<bool, 3> _control_allocator_saturation_positive;
+
+	uORB::Publication<pidvalues_s>     _pid_values_pub{ORB_ID(pid_values)};
+	matrix::Vector3f _mfc_gain_p;
+	matrix::Vector3f _mfc_gain_i;
+	matrix::Vector3f _mfc_gain_d;
+	matrix::Vector3f _last_u;                 // to store the last u term
+	matrix::Vector3f _current_u;              // current u term
+	matrix::Vector3f _measurement;
+	matrix::Vector2f _f_hat;
+	matrix::Vector3f _sp_double_der;
+	rc_channels_s _rc_channel_values;
+	float _lambda;
+	float _gain_sp;
+	float _gain_f_hat;
+	int _mfc_n;
+	float _mfc_dt;
+	float _F_hat_calc;
+	float _total_time;
+	float _time_steps[22] = {0.0f};
+	float _roll_last_u[22] = {0.0f};
+	float _pitch_last_u[22] = {0.0f};
+	float _roll_sp_values[22] = {0.0f};
+	float _pitch_sp_values[22] = {0.0f};
+	float _roll_rate_values[22] = {0.0f};
+	float _pitch_rate_values[22] = {0.0f};
 };

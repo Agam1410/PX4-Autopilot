@@ -159,6 +159,21 @@ private:
 		(ParamFloat<px4::params::MC_ACRO_SUPEXPO>) _param_mc_acro_supexpo,		/**< superexpo stick curve shape (roll & pitch) */
 		(ParamFloat<px4::params::MC_ACRO_SUPEXPOY>) _param_mc_acro_supexpoy,		/**< superexpo stick curve shape (yaw) */
 
-		(ParamBool<px4::params::MC_BAT_SCALE_EN>) _param_mc_bat_scale_en
+		(ParamBool<px4::params::MC_BAT_SCALE_EN>) _param_mc_bat_scale_en,
+
+		(ParamFloat<px4::params::MC_MFC_L>) _param_mc_rollrate_lambda,
+		(ParamFloat<px4::params::MC_MFC_GF>) _param_mc_rollrate_gain_f_hat,
+		(ParamFloat<px4::params::MC_MFC_GS>) _param_mc_rollrate_gain_sp_der,
+		(ParamInt<px4::params::MC_MFC_N>) _param_mc_rollrate_mfc_n,
+
+		(ParamFloat<px4::params::MC_ROLLR_MFC_P>) _param_mc_rollrate_mfc_p,
+		(ParamFloat<px4::params::MC_ROLLR_MFC_I>) _param_mc_rollrate_mfc_i,
+		(ParamFloat<px4::params::MC_ROLLR_MFC_D>) _param_mc_rollrate_mfc_d,
+
+
+		(ParamFloat<px4::params::MC_PITCHR_MFC_P>) _param_mc_pitchrate_mfc_p,
+		(ParamFloat<px4::params::MC_PITCHR_MFC_I>) _param_mc_pitchrate_mfc_i,
+		(ParamFloat<px4::params::MC_PITCHR_MFC_D>) _param_mc_pitchrate_mfc_d
+
 	)
 };
